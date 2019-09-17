@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}首页{% endblock %} - wakenforest 博客系统</title>
+    <meta nane="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!--<link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen"> -->
+    <style>
+        .post{
+            margin-bottom: 5px;
+        }
+        a.nav-link{
+            width: 80px;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>
+
+<div class="container head">
+    
+    <div class="jumbotron"  style="opacity:0.9; height: 230px; margin-bottom: -0px;" >
+        <div class="row">
+            <div class="col-2">
+                <img src="{% static 'logo_site.png' %}" class="img-rounded"  
+                style="opacity:0.9; height: 250px; margin-top: -65px; margin-left: -15px;">
+                <!-- <img src="/typeidea/themes/bootstrap/templates/blog/banner.png" class="img-rounded"> -->
+            </div>
+            <div class="col-10">
+                <h1 class="display-5" style="margin-top: 8px">Wakenforest</h1>
+                <p class="lead" style="margin-bottom: -10px">醒来的森林，愿新的一天在鸟鸣中清醒</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- <nav class="navbar nav-pills navbar-light bg-light"> -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 55px">
+
+            <div class="col-8">
+                <a class="navbar-brand" href="/">
+                    <img src="{% static 'logo_legend.png' %}" class="img-rounded"  
+                        style="opacity:0.5; height: 30px; margin-top: -3px; margin-left: -20px; margin-right: -30px;">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: 15px">
+                    <!-- <ul class="nav nav-pills"> -->
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class = "nav-link" href="/">首&nbsp&nbsp&nbsp页</a>
+                        </li>
+
+                        <li>
+                            <a class = "nav-link" href="#">简&nbsp&nbsp&nbsp介</a>
+                        </li>
+
+                        <li>
+                            <a class = "nav-link" href="#">Bitcoin</a>
+                        </li>
+                        
+                        <li>
+                            <a class = "nav-link" href="#">地图漫步</a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">
+                                博&nbsp&nbsp&nbsp客 
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for cate in navs %}
+                                <li class="nav-item">
+                                    <a class = "nav-link" href="{% url 'category-list' cate.id %}">{{ cate.name }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class = "nav-link" href="/links">友人帐</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-4">
+                <!-- <form class="form-inline my-3 my-lg-2"  action = '/search/' method='GET'> -->
+                <form class="form-inline navbar-right" style="margin-top: 17px; margin-right: 0px;"  action = '/search/' method='GET'>
+                <!-- <form action = '/search/' method='GET' sytle="margin-right: 10px;"> -->
+                    <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Search" aria-label="Search" 
+                            value="{{ keyword }}">
+                    <button class="btn btn-outline-success" type="submit">搜索</button>
+                </form>
+            </div>
+    </nav>
+
+    
+    
+</div>
+
+<div class="container main">
+        <div class="row">
+            <div class="col-8 post-list">
+                {% block main %}
+                {% endblock %}
+            </div>
+            <div class="col-4">
+                {% block sidebar %}
+                    {% for sidebar in sidebars %}
+                    <div class="card sidebar">
+                        <div class="card-body">
+                        <h4 class="card-title">{{ sidebar.title }}</h4>
+                        <p>{{ sidebar.content_html }}</p>
+                        </div>
+                    </div>
+                    <p></p>
+                    {% endfor %}
+
+                    <p></p>
+
+                    <div class="card sidebar">
+                        <div class="card-body">
+                        <h4 class="card-title">热门标签</h4>
+                            <p>
+                            {% for tag in tag_all %}
+                                <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a> &nbsp&nbsp
+                            {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+</div>
+
+<footer class="footer">
+
+    <div class="container">
+        <hr/>
+        <nav class="nav category">
+            {% for cate in categories %}
+            <a href = "{% url 'category-list' cate.id %}" class="nav-link">
+                {{ cate.name }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+    <div class="container power" style="text-align:center">
+        <span class="text-muted">Power by wakenforest@126.com</span>
+    </div>
+
+</footer>
+
+</body>
+
+
+</html>
