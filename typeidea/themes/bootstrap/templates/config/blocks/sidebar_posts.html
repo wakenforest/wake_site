@@ -5,6 +5,6 @@
 </style>
 <ul id=mylist>
     {% for post in posts %}
-    <li><a href="/post/{{ post.id }}.html">{{ post.title }}</a> <span>热度:{{post.pv}}&nbsp&nbsp&nbsp</span></li>
+    <li style="margin-left: -10px;"><a href="/post/{{ post.id }}.html">{{ post.title }}</a> <span>热度:{{post.pv}}&nbsp&nbsp&nbsp</span></li>
     {% endfor %}
 </ul>
