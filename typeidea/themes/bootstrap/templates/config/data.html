@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data</title>
+    <script src="https://cdn.bootcss.com/echarts/4.3.0-rc.2/echarts.common.min.js"></script>
+</head>
+<body>
+
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+
+<!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
+
+{% block main %}
+
+
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px; text-align:center"></div>
+<script type="text/javascript">
+
+    // function myrefresh() {
+    //   window.location.reload();
+    // }
+    // setTimeout('myrefresh()', 1000); 
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // // 指定图表的配置项和数据
+    // $.ajax({
+    //   type: "get",
+    //   url: "/api/echarts",
+    //   dataType: "json",
+    //   success: function (data) {
+
+    //     // 指定图表的配置项和数据
+    //     var option = {
+    //         title: {
+    //         left: 'center',
+    //         text: '随机数据显示'
+    //         },
+    //         tooltip: {},
+    //         xAxis: {
+    //             data: data.key
+    //         },
+    //         yAxis: {},
+    //         series: [{
+    //         name: '数量',
+    //         type: 'line',
+    //         data: data.value
+    //         }]
+    //     };
+
+    //     console.log(data.key);
+
+    //     // 使用刚指定的配置项和数据显示图表。
+    //     myChart.setOption(option);
+    //   },
+    //   error: function () {
+    //     alert('Error: ajax 请求出错！')
+    //   }
+    // });
+
+// 指定图表的配置项和数据
+var getting = {
+      type: "get",
+      url: "/api/echarts",
+      dataType: "json",
+      success: function (data) {
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+            left: 'center',
+            text: '随机数据显示'
+            },
+            tooltip: {},
+            xAxis: {
+                data: data.key
+            },
+            yAxis: {},
+            series: [{
+            name: '数量',
+            type: 'line',
+            data: data.value
+            }]
+        };
+
+        console.log(data.value);
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+      },
+      error: function () {
+        alert('Error: ajax 请求出错！')
+      }
+    };
+
+//关键在这里，Ajax定时访问服务端，不断获取数据 ，这里是1秒请求一次。
+window.setInterval(function(){$.ajax(getting)},1020 * 1);
+
+</script>
+
+
+<!-- {% for d in data1 %}
+    <li class="active"><a>{{d}}</a></li>
+{% endfor %} -->
+
+{% endblock %}
+
+</body>

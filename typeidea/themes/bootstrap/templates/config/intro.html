@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人简介</title>
+    <!-- <style>
+        h4{
+            font-weight:bold;
+        }
+    </style> -->
+</head>
+<body>
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+{% block title %}个人简介{% endblock %}
+
+{% block main %}
+
+<div align="center">
+    <img class="img-circle" src="{% static 'images/self.jpg'%}" style="width:270px;">
+</div>
+
+<div class="post-body" style="margin-left:30px;">
+
+        <h4 id="个人信息"><a href="#个人信息" class="headerlink" title="个人信息"></a>个人信息</h4><ul>
+        <li>Wang F / 男 / 1989</li>
+        <li>联系方式： 13810XX44XX</li>
+        <li>Email: <a href="mailto:wakenforest@126.com" target="_blank" rel="noopener">wangfei_thuee@126.com</a></li>
+        </ul>
+        <h4 id="教育经历"><a href="#教育经历" class="headerlink" title="教育经历"></a>教育经历</h4><ul>
+        <li>2007-2011    清华大学    电子信息工程    工学学士    GPA：8X.0/100</li>
+        <li>2013-2018    清华大学    信息与通信工程    工学博士    GPA：9X.7/100</li>
+        </ul>
+        <h4 id="所获荣誉"><a href="#所获荣誉" class="headerlink" title="所获荣誉"></a>所获荣誉</h4><ul>
+        <li>本科生学业优秀三等奖（2009）</li>
+        <li>本科生综合优秀奖学金（2010）</li>
+        <li>研究生三等奖学金（2016）</li>
+        <li>研究生二等奖学金（2017）</li>
+        <li>第十届中国卫星导航学术年会青年优秀论文三等奖（2019）</li>
+        </ul>
+        <h4 id="社会工作"><a href="#社会工作" class="headerlink" title="社会工作"></a>社会工作</h4><ul>
+        <li>2013-2015    清华大学电子工程系系辅导员</li>
+        <li>2016-2017    清华大学全球导航定位基础、统计信号处理课程助教</li>
+        <li>2017-2018    中国卫星导航学术年会S09用户终端技术分会秘书</li>
+        </ul>
+        <h4 id="研究成果"><a href="#研究成果" class="headerlink" title="研究成果"></a>研究成果</h4><ul>
+        <li>Wang F, Li H, Lu M Q. GNSS Spoofing Detection and Mitigation Based on Maximum Likelihood Estimation. Sensors, 2017,17:1532. (SCI, IF: 2.475)</li>
+        <li>Wang F, Li H, Lu M Q. GNSS Spoofing Countermeasure with a Single Rotating Antenna. IEEE Access, 2017,5:8039-8047. (SCI, IF: 3.557)</li>
+        <li>Wang F, Li H, Lu M Q. GNSS Spoofing Detection Based on Unsynchronized Double-Antenna Measurements. IEEE Access, 2018,6: 31203-31212. (SCI, IF: 3.557)</li>
+        <li>另有第一作者 EI 期刊 1 篇，EI 会议 4 篇</li>
+        </ul>
+        <h4 id="外语水平"><a href="#外语水平" class="headerlink" title="外语水平"></a>外语水平</h4><ul>
+        <li>英语： CET-4:599  /  CET-6:576</li>
+        <li>日语： N2:139  /  N1:105</li>
+        </ul>
+        <h4 id="能力技能"><a href="#能力技能" class="headerlink" title="能力技能"></a>能力技能</h4><ul>
+        <li>熟练掌握：Matlab、Latex</li>
+        <li>熟悉了解：C#、C、Python；Verilog</li>
+        <li>平台应用：ISE、Quartus II、VS</li>
+        <li>其它资质：心理咨询师三级</li>
+        </ul>
+        <h4 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h4><ul>
+        <li>XXX部队，工程师<ul>
+        <li>负责以下项目的技术要求、总体方案编写、招投标工作：<ul>
+        <li>XX卫星快速处置训练平台</li>
+        <li>减少卫星不可用时间软件优化改造</li>
+        <li>XX系统运行状态评估与值班辅助决策</li>
+        </ul>
+        </li>
+        <li>负责编写国家军用标准：《XX卫星可用性控制与评估》</li>
+        </ul>
+        </li>
+        <li>业余工作<ul>
+        <li>调研无线通信模块</li>
+        <li>调研PTP v2及White Rabbit时间同步技术</li>
+        </ul>
+        </li>
+        </ul>
+</div>
+    
+<!-- <table class="table">
+    <thread>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">名称</th>
+            <th scope="col">网址</th>
+        </tr>
+    </thread>
+    <tbody>
+        {% for link in link_list %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ link.title }}</td>
+                <td><a href="{{ link.href }}">{{ link.href}}</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> -->
+{% endblock %}
+</body>
+</html>

@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 #from blog.views import post_list, post_detail
-from config.views import LinkListView, ajax_list, ajax_dict
+from config.views import LinkListView, ajax_list, ajax_dict, IntroView, DataView, echarts_data
 from typeidea.custom_site import custom_site
 from blog.views import (
     PostDetailView,TagView,IndexView,CategoryView,
@@ -32,6 +32,10 @@ from rest_framework.documentation import include_docs_urls
 from django.conf import settings
 
 from dict_word.views import dict_word_index, dict_word_spider 
+
+from django.views.generic.base import TemplateView
+
+
 
 router = DefaultRouter()
 router.register(r'post', PostViewSet, base_name='api-post')
@@ -59,6 +63,13 @@ urlpatterns = [
     url(r'^links/$', LinkListView.as_view(), name='links'),
     url(r'^ajax_list/$', ajax_list, name='ajax-list'),
     url(r'^ajax_dict/$', ajax_dict, name='ajax-dict'),
+
+    url(r'^intro/$', IntroView.as_view(), name='intro'),
+    # url(r'^data/$', DataView.as_view(), name='intro'),
+    
+    # url(r'^data/$', TemplateView.as_view(template_name = 'config/data.html'), name='echarts-url'),
+    path('data/', TemplateView.as_view(template_name = 'config/data.html'), name='echarts-url'),
+    path('api/echarts/', echarts_data, name='api-echarts'),
 
     # url(r'^api/post/', post_list, name='post-list'),
     #url(r'^api/post/', PostList.as_view(), name='post-list'),
