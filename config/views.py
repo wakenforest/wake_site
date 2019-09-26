@@ -44,10 +44,27 @@ class IntroView(CommonViewMixin, ListView):
     template_name = 'config/intro.html'
     context_object_name = 'self_intro'
 
+# class DataView(CommonViewMixin, ListView):
+#     queryset = Link.objects.filter(status=Link.STATUS_NORMAL)
+#     template_name = 'config/data.html'
+#     context_object_name = 'data'
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         data1 = range(0,10)
+#         print(data1)
+#         context.update({
+#             'data1': data1,
+#         })
+#         return context
+
 class DataView(CommonViewMixin, ListView):
     queryset = Link.objects.filter(status=Link.STATUS_NORMAL)
     template_name = 'config/data.html'
     context_object_name = 'data'
+
+    x = list( range(0,30) ) 
+    ylist =  [0 for _ in range(30)]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -58,26 +75,39 @@ class DataView(CommonViewMixin, ListView):
         })
         return context
 
-# class DataListView(CommonViewMixin, ListView):
-#     queryset = Link.objects.filter(status=Link.STATUS_NORMAL)
-#     template_name = 'config/data.html'
-#     context_object_name = 'link_list'
+    # def thread_func(self):
+    #     n = 25 + random.randint(0, 10)
+    #     for i in range(29):
+    #         self.ylist[i] = self.ylist[i+1]
+    #     self.ylist[29] = n
+    
+    # def echarts_data(self,request):
 
-ylist =  [0 for _ in range(30)]
+    #     timer = threading.Timer(1, self.thread_func)
+    #     timer.start()
+        
+    #     jsondata = {
+    #         "key": self.x,
+    #         "value": self.ylist,
+    #     }
+    #     return JsonResponse(jsondata) 
 
-@csrf_exempt
+
+dataLen = 50
+ylist =  [0 for _ in range(dataLen)]
+
 def thread_func():
-    global ylist
+    global ylist,dataLen
     n = 25 + random.randint(0, 10)
-    for i in range(29):
+    for i in range(dataLen-1):
         ylist[i] = ylist[i+1]
-    ylist[29] = n
+    ylist[dataLen-1] = n
 
     #print(ylist)
     
-@csrf_exempt
 def echarts_data(request):
-    x = list( range(0,30) ) 
+    global dataLen
+    x = list( range(0,dataLen) ) 
     # y = list( range(0,10) ) 
 
     # for i in range(10):

@@ -19,7 +19,7 @@
 
 
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="main" style="width: 600px;height:400px; text-align:center"></div>
+<div id="main" style="width: 650px;height:400px;text-align:right"></div>
 <script type="text/javascript">
 
     // function myrefresh() {
@@ -30,40 +30,52 @@
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
 
-    // // 指定图表的配置项和数据
-    // $.ajax({
-    //   type: "get",
-    //   url: "/api/echarts",
-    //   dataType: "json",
-    //   success: function (data) {
+    myChart.setOption({
+            title: {
+            left: 'center',
+            text: '随机数据显示',
+            },
+            grid:{
+                    x:55,
+                    y:45,
+                    x2:5,
+                    y2:20,
+                    borderWidth:1
+                },
+            tooltip: { show: true },
 
-    //     // 指定图表的配置项和数据
-    //     var option = {
-    //         title: {
-    //         left: 'center',
-    //         text: '随机数据显示'
-    //         },
-    //         tooltip: {},
-    //         xAxis: {
-    //             data: data.key
-    //         },
-    //         yAxis: {},
-    //         series: [{
-    //         name: '数量',
-    //         type: 'line',
-    //         data: data.value
-    //         }]
-    //     };
+            toolbox: { //可视化的工具箱
+                show: true,
+                feature: {
+                    dataView: { //数据视图
+                        show: true
+                    },
+                    restore: { //重置
+                        show: true
+                    },
+                    dataZoom: { //数据缩放视图
+                        show: true
+                    },
+                    saveAsImage: {//保存图片
+                        show: true
+                    },
+                    magicType: {//动态类型切换
+                        type: ['bar', 'line']
+                    }
+                }
+            },
 
-    //     console.log(data.key);
-
-    //     // 使用刚指定的配置项和数据显示图表。
-    //     myChart.setOption(option);
-    //   },
-    //   error: function () {
-    //     alert('Error: ajax 请求出错！')
-    //   }
-    // });
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+            name: '数量',
+            type: 'line',
+            // smooth: true,
+            data: []
+            }]
+        });
 
 // 指定图表的配置项和数据
 var getting = {
@@ -74,18 +86,13 @@ var getting = {
 
         // 指定图表的配置项和数据
         var option = {
-            title: {
-            left: 'center',
-            text: '随机数据显示'
-            },
-            tooltip: {},
             xAxis: {
                 data: data.key
             },
             yAxis: {},
             series: [{
             name: '数量',
-            type: 'line',
+            // smooth: true,
             data: data.value
             }]
         };

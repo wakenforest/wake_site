@@ -68,7 +68,9 @@ urlpatterns = [
     # url(r'^data/$', DataView.as_view(), name='intro'),
     
     # url(r'^data/$', TemplateView.as_view(template_name = 'config/data.html'), name='echarts-url'),
-    path('data/', TemplateView.as_view(template_name = 'config/data.html'), name='echarts-url'),
+    # path('data/', TemplateView.as_view(template_name = 'config/data.html'), name='echarts-url'),
+    # path('api/echarts/', echarts_data, name='api-echarts'),
+    path('data/', DataView.as_view(template_name = 'config/data.html'), name='echarts-url'),
     path('api/echarts/', echarts_data, name='api-echarts'),
 
     # url(r'^api/post/', post_list, name='post-list'),
