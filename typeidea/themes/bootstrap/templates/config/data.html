@@ -11,11 +11,9 @@
 
 {% load static %}
 
-
 <!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
 
 {% block main %}
-
 
 
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -77,6 +75,8 @@
             }]
         });
 
+myChart.showLoading();
+
 // 指定图表的配置项和数据
 var getting = {
       type: "get",
@@ -89,7 +89,9 @@ var getting = {
             xAxis: {
                 data: data.key
             },
-            yAxis: {},
+            yAxis: {
+                scale:true,
+            },
             series: [{
             name: '数量',
             // smooth: true,
@@ -101,6 +103,7 @@ var getting = {
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
+        myChart.hideLoading();
       },
       error: function () {
         alert('Error: ajax 请求出错！')
@@ -108,7 +111,8 @@ var getting = {
     };
 
 //关键在这里，Ajax定时访问服务端，不断获取数据 ，这里是1秒请求一次。
-window.setInterval(function(){$.ajax(getting)},1020 * 1);
+window.setInterval(function(){$.ajax(getting)},1120 * 1);
+
 
 </script>
 

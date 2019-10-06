@@ -11,7 +11,7 @@ import random
 import threading
 import time
 from django.views.decorators.csrf import csrf_exempt
-
+import json
  
 
 class LinkListView(CommonViewMixin, ListView):
@@ -19,7 +19,6 @@ class LinkListView(CommonViewMixin, ListView):
     template_name = 'config/links.html'
     context_object_name = 'link_list'
 
-import json
 
 def index(request):
     return render(request, 'index.html')
@@ -98,10 +97,14 @@ ylist =  [0 for _ in range(dataLen)]
 
 def thread_func():
     global ylist,dataLen
-    n = 25 + random.randint(0, 10)
+    n = -4 + random.randint(0, 10)
+    ylist[dataLen-1] = ylist[dataLen-1] + n
     for i in range(dataLen-1):
         ylist[i] = ylist[i+1]
-    ylist[dataLen-1] = n
+
+    # for i in range(dataLen-1):
+    #     ylist[i] = ylist[i+1]
+    # ylist[dataLen-1] = n
 
     #print(ylist)
     

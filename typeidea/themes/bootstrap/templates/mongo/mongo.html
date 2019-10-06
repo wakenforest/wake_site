@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>mongodb</title>
+    <meta nane="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://cdn.bootcss.com/echarts/4.3.0-rc.2/echarts.common.min.js"></script>
+
+    {% extends 'blog/base.html' %}
+    {% load static %}
+    {% block css %}
+        <link href="{% static 'css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" media="screen"> 
+        <link rel="stylesheet" href="{% static 'css/calendar1.css' %}" media="screen">
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"> 
+    {% endblock %}
+
+</head>
+
+<body>
+
+<!-- <script src="{% static 'js/jquery.min.js' %}"></script> -->
+
+
+<div>
+    <form class="form-inline navbar-right" style="margin-top: 17px; margin-right: 0px;"  action = '/' method='GET'>
+        <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="Search" aria-label="Search" 
+                value="{{ keyword }}">
+        <button class="btn btn-outline-success" type="submit">搜索</button>
+    </form>
+</div>
+
+{% block main %}
+
+
+
+<!-- 2019.01.31 - 16:01 am -->
+<div class="card">
+<!-- <div class="container"> -->
+    <div class="card-header " style="text-align:center; color:black; background-color:lightblue">
+        日期格式：2019.10.01 - 04:21 pm
+    </div>
+    <form action = '/mongo/' method='GET' class="form-horizontal card-body"  role="form">
+        <fieldset>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-5">    
+                        <label for="dtp_input1" class="col-md-3 control-label" style="font-size:13px;">开始</label>
+                        <div class="input-group date form_datetime col-md-9" data-date="2019-10-01T00:00:01Z" 
+                        data-date-format="yyyy.mm.dd - HH:ii p" data-link-field="dtp_input1" >
+                            <input class="form-control" style="font-size:13px;" size="3" type="search" placeholder="开始时间"
+                            name="start_time" autocomplete="off" value="{{ start_time }}">
+                            <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+
+                    <div class="col-5">    
+                        <label for="dtp_input2" class="col-md-3 control-label" style="font-size:13px;">结束</label>
+                        <div class="input-group date form_datetime col-md-9" data-date="2019-10-01T00:00:01Z" 
+                        data-date-format="yyyy.mm.dd - HH:ii p" data-link-field="dtp_input2">
+                            <input class="form-control" style="font-size:13px;" size="3" type="text" placeholder="结束时间"
+                            name="end_time" autocomplete="off" value="{{ end_time }}">
+                            <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-success">提交</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<br>
+<br>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 650px;height:400px;text-align:right"></div>
+<script type="text/javascript">
+
+    // function myrefresh() {
+    //   window.location.reload();
+    // }
+    // setTimeout('myrefresh()', 1000); 
+
+
+// 基于准备好的dom，初始化echarts实例
+var myChart = echarts.init(document.getElementById('main'));
+
+window.onresize = function () {
+    myChart.resize();
+}
+
+// 指定图表的配置项和数据
+var getting = {
+      type: "get",
+      url: "/api/mongo_data",
+      dataType: "json",
+      success: function (data) {
+
+        date_list = refreshData(data.key);
+        var now = +new Date(1997, 9, 3);
+        // 指定图表的配置项和数据n
+        var option = {
+            title: {
+                    left: 'center',
+                    text: 'mongodb数据显示',
+                },
+            grid:{
+                x:55,
+                y:45,
+                x2:5,
+                y2:20,
+                borderWidth:1,
+                bottom:'12%'
+            },
+
+            tooltip: { show: true },
+
+            toolbox: { //可视化的工具箱
+                show: true,
+                feature: {
+                    dataView: { //数据视图
+                        show: true
+                    },
+                    restore: { //重置
+                        show: true
+                    },
+                    dataZoom: { //数据缩放视图
+                        show: true
+                    },
+                    saveAsImage: {//保存图片
+                        show: true
+                    },
+                    magicType: {//动态类型切换
+                        type: ['bar', 'line']
+                    }
+                }
+            },
+
+            
+            xAxis: {
+                // data: data.key,
+                data: date_list,
+                // type: 'time',
+                type: 'category',
+                axisLabel: {
+                    // interval: 0,
+                        rotate: 25, // 20度角倾斜显示(***这里是关键)
+                        textStyle: { fontSize:'10' },
+                        margin: '18',
+                        align: 'center',
+                    },
+                axisTick:{
+                    alignWithLabel: true,
+                }              
+            },
+            yAxis: {},
+            series: [{
+                name: '数量',
+                // smooth: true,
+                type: 'bar',
+                data: data.value
+            }]
+        };
+
+        console.log( typeof( data.key[0]) );
+        console.log( new Date( data.key[0]) );
+        
+        // 使用刚指定的配置项和数据显示图表。
+        if(typeof data.value === 'undefined')
+        {
+            console.log('!!!')
+        }
+        else
+        {
+            myChart.setOption(option);
+        }
+      },
+      error: function () {
+        alert('Error: 请输入正确的筛选条件！')
+      }
+    };
+
+$.ajax(getting);
+
+
+function dateFtt(fmt,date) 
+{ 
+    var o = { 
+    "M+" : date.getMonth()+1,     //月份 
+    "d+" : date.getDate(),     //日 
+    "h+" : date.getHours(),     //小时 
+    "m+" : date.getMinutes(),     //分 
+    "s+" : date.getSeconds(),     //秒 
+    "q+" : Math.floor((date.getMonth()+3)/3), //季度 
+    "S" : date.getMilliseconds()    //毫秒 
+    }; 
+    if(/(y+)/.test(fmt)) 
+    fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+    for(var k in o) 
+    if(new RegExp("("+ k +")").test(fmt)) 
+    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+    return fmt; 
+}
+
+function refreshData(val_list){
+    var i;
+    date_list = new Array();
+    for(i = 0; i<val_list.length; i++)
+    {
+        tmp = new Date(val_list[i]);
+        // tmp = dateFtt("yyyy-MM-dd hh:mm:ss",tmp);
+        tmp = dateFtt("MM-dd hh:mm",tmp);
+        // tmp = new Date(val_list[i]).Format("MM/dd HH:mm");
+        date_list.push(tmp);
+    }
+    return date_list;
+}
+
+
+
+</script>
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main_2" style="width: 650px;height:400px;text-align:right"></div>
+<script type="text/javascript">
+
+// 基于准备好的dom，初始化echarts实例
+var myChart_2 = echarts.init(document.getElementById('main_2'));
+
+window.onresize = function () {
+    myChart_2.resize();
+}
+
+// 指定图表的配置项和数据
+var getting = {
+      type: "get",
+      url: "/api/mongo_data",
+      dataType: "json",
+      success: function (data) {
+
+        // 指定图表的配置项和数据n
+        var option = {
+            title: {
+                    left: 'center',
+                    text: 'mongodb数据显示',
+                },
+            color: ['#3bcec6'],
+            grid:{
+                x:55,
+                y:45,
+                x2:5,
+                y2:20,
+                borderWidth:1
+            },
+
+            tooltip: { show: true },
+
+            toolbox: { //可视化的工具箱
+                show: true,
+                feature: {
+                    dataView: { //数据视图
+                        show: true
+                    },
+                    restore: { //重置
+                        show: true
+                    },
+                    dataZoom: { //数据缩放视图
+                        show: true
+                    },
+                    saveAsImage: {//保存图片
+                        show: true
+                    },
+                    magicType: {//动态类型切换
+                        type: ['bar', 'line']
+                    }
+                }
+            },
+
+            xAxis: {
+                data: data.key
+            },
+            yAxis: {},
+            series: [{
+                name: '数量',
+                // smooth: true,
+                type: 'bar',
+                data: data.id
+            }]
+        };
+
+        console.log(data.id);
+        
+        // 使用刚指定的配置项和数据显示图表。
+        if(typeof data.id === 'undefined')
+        {
+            console.log('!!!')
+        }
+        else
+        {
+            myChart_2.setOption(option);
+        }
+      },
+      error: function () {
+        alert('Error: 请输入正确的筛选条件！')
+      }
+    };
+
+$.ajax(getting);
+</script>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'js/bootstrap-datetimepicker.min.js' %}" charset="UTF-8"></script>
+<script type="text/javascript" src="{% static 'js/locales/bootstrap-datetimepicker.fr.js' %}" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	$('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 1,
+		minView: 0,
+		maxView: 1,
+		forceParse: 0
+    });
+</script>
+{% endblock extra_js %}
+
+</body>

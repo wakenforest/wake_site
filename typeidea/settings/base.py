@@ -24,8 +24,8 @@ SECRET_KEY = '59ua%cg^ak66cn&+=(fozkf1#5%ic91m_9$be_7q29kpuxc4gw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'comment',
     'rest_framework',
     'dict_word',
+    'mongo',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,12 +130,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = '/tmp/static'
-
+# STATIC_ROOT = '/tmp/static'
+STATIC_ROOT = os.path.join(BASE_DIR,'static') 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'themes', THEME, "static"),
+    '/typeidea/themes/bootstrap/static/',
+    #os.path.join(BASE_DIR, 'typeidea', 'themes', THEME, "static"),
 ]
 
 REST_FRAMEWORK = {

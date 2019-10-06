@@ -35,6 +35,7 @@ from dict_word.views import dict_word_index, dict_word_spider
 
 from django.views.generic.base import TemplateView
 
+from mongo.views import MongoView, mongo_data
 
 
 router = DefaultRouter()
@@ -72,6 +73,9 @@ urlpatterns = [
     # path('api/echarts/', echarts_data, name='api-echarts'),
     path('data/', DataView.as_view(template_name = 'config/data.html'), name='echarts-url'),
     path('api/echarts/', echarts_data, name='api-echarts'),
+    url(r'^mongo/$', MongoView.as_view(),name='mongo'),
+    path('api/mongo_data/', mongo_data, name='api-mongo_data'),
+    # url(r'^mongo/$', mongo_data, name='api-mongo_data1'),
 
     # url(r'^api/post/', post_list, name='post-list'),
     #url(r'^api/post/', PostList.as_view(), name='post-list'),
@@ -80,6 +84,7 @@ urlpatterns = [
     url(r'^api/docs/', include_docs_urls(title='wakenforest apis')),
     #url(r'dict_word/$', dict_word_index, name='dict-word-index'),
     path('dict_word/', include('dict_word.urls', namespace='dict_word')),
+    
 ]
 
 # if settings.DEBUG:

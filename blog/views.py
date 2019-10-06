@@ -155,7 +155,7 @@ class SearchView(IndexView):
         keyword = self.request.GET.get('keyword')
         if not keyword:
             return queryset
-        return queryset.filter( Q(title__icontains=keyword) | Q(desc__icontains=keyword) )
+        return queryset.filter( Q(title__icontains=keyword) | Q(desc__icontains=keyword) | Q(content__icontains=keyword))
 
 class AuthorView(IndexView):
     def get_queryset(self):

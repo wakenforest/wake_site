@@ -1,10 +1,11 @@
 <style>
 #mylist li span {  
     float:right;   
+    font-size: 13px;
 } 
 </style>
 <ul id=mylist>
     {% for post in posts %}
-    <li style="margin-left: -10px;"><a href="/post/{{ post.id }}.html">{{ post.title }}</a> <span>热度:{{post.pv}}&nbsp&nbsp&nbsp</span></li>
+    <li style="margin-left: -10px;"><a href="/post/{{ post.id }}.html" style="font-size: 13px;">{{ post.title }}</a> <span>热度:{{post.pv}}&nbsp&nbsp&nbsp</span></li>
     {% endfor %}
 </ul>

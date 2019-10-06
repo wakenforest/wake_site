@@ -92,7 +92,7 @@ class Post(models.Model):
     content_html = models.TextField(verbose_name="正文html代码",blank=True, editable=False)
 
     def save(self, *args, **kwargs):
-        self.content_html = mistune.markdown(self.content)
+        self.content_html = mistune.markdown(self.content, escape=False)
         super().save(*args, **kwargs)
 
     class Meta:

@@ -21,10 +21,16 @@ DATABASES = {
         'PASSWORD': '123456',
         'HOST':'127.0.0.1',
         'PORT':3306,
-        
+    },
+    'mongotest':{
+        'ENGINE' : None,
     }
 }
 
+import mongoengine
+# 连接mongodb中数据库名称为mongotest5的数据库 iflashbuy_log
+# mongoengine.connect("iflashbuy_log",host="127.0.0.1",port=27017)
+mongoengine.connect("test_log",host="127.0.0.1",port=27017)
 
 # INSTALLED_APPS += [
 #     'debug_toolbar',
